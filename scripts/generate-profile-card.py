@@ -136,6 +136,13 @@ PALETTES = {
     },
 }
 
+EMAIL = "bramvanzwolle@sibi.nl"
+
+SNAKE_FILES = {
+    "dark": "dist/github-contribution-grid-snake-dark.svg",
+    "light": "dist/github-contribution-grid-snake.svg",
+}
+
 PIXEL_B = [
     "111110",
     "100011",
@@ -162,12 +169,25 @@ def render_pixel_avatar(palette: dict, origin_x: int, origin_y: int, cell: int =
     return "\n    ".join(rects)
 
 
-def render_card(palette: dict, stats: dict) -> str:
+def embed_snake(svg_path: str, x: int, y: int, target_width: int) -> tuple[str, int]:
+    with open(svg_path, encoding="utf-8") as handle:
+        content = handle.read()
+    native_width, native_height = 880, 192
+    target_height = round(native_height * target_width / native_width)
+    content = content.replace(
+        'width="880" height="192"',
+        f'x="{x}" y="{y}" width="{target_width}" height="{target_height}"',
+        1,
+    )
+    return content, target_height
+
+
+def render_card(palette: dict, stats: dict, snake_path: str) -> str:
     width = 860
     info_x = 300
     line_height = 25
     lines: list[tuple[str, str, str]] = [
-        ("", "bram@github", "accent"),
+        ("", EMAIL, "accent"),
         ("", "─" * 34, "muted"),
         ("OS", "PHP 8.4 · Laravel 12", "text"),
         ("Role", "Full-stack developer & Product Owner", "text"),
@@ -193,17 +213,22 @@ def render_card(palette: dict, stats: dict) -> str:
             value_x = info_x + 118
         else:
             value_x = info_x
-        weight = ' font-weight="bold"' if value == "bram@github" else ""
+        weight = ' font-weight="bold"' if value == EMAIL else ""
         text_elements.append(
             f'<text x="{value_x}" y="{y}" font-family="{FONT}" font-size="15"{weight} '
             f'fill="{palette[tone]}">{escape(value)}</text>'
         )
         y += line_height
 
-    prompt_y = y + 8
+    snake_prompt_y = y + 8
+    snake_x, snake_width = 40, width - 80
+    snake_y = snake_prompt_y + 14
+    snake_block, snake_height = embed_snake(snake_path, snake_x, snake_y, snake_width)
+    prompt_y = snake_y + snake_height + 30
     height = prompt_y + 34
+    info_column_bottom = snake_prompt_y
     avatar_height = len(PIXEL_B) * 24
-    avatar_y = 45 + (height - 45 - avatar_height) // 2
+    avatar_y = 45 + (info_column_bottom - 45 - avatar_height) // 2
     info_block = "\n  ".join(text_elements)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
   <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="12" fill="{palette["background"]}" stroke="{palette["border"]}" stroke-width="2" />
@@ -213,12 +238,14 @@ def render_card(palette: dict, stats: dict) -> str:
   <circle cx="28" cy="23" r="7" fill="#ff5f56" />
   <circle cx="52" cy="23" r="7" fill="#ffbd2e" />
   <circle cx="76" cy="23" r="7" fill="#27c93f" />
-  <text x="{width / 2}" y="28" text-anchor="middle" font-family="{FONT}" font-size="13" fill="{palette["title_text"]}">bram@github — zsh</text>
+  <text x="{width / 2}" y="28" text-anchor="middle" font-family="{FONT}" font-size="13" fill="{palette["title_text"]}">bram — zsh</text>
   <g>
     {render_pixel_avatar(palette, 68, avatar_y)}
   </g>
   {info_block}
-  <text x="{info_x}" y="{prompt_y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}">~ <tspan fill="{palette["text"]}">█<animate attributeName="opacity" values="1;1;0;0" dur="1.2s" repeatCount="indefinite" /></tspan></text>
+  <text x="{snake_x}" y="{snake_prompt_y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}">~ <tspan fill="{palette["text"]}">./snake --contributions</tspan></text>
+  {snake_block}
+  <text x="{snake_x}" y="{prompt_y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}">~ <tspan fill="{palette["text"]}">█<animate attributeName="opacity" values="1;1;0;0" dur="1.2s" repeatCount="indefinite" /></tspan></text>
 </svg>
 '''
 
@@ -248,7 +275,7 @@ def main() -> None:
     for theme, palette in PALETTES.items():
         path = f"dist/profile-card-{theme}.svg"
         with open(path, "w", encoding="utf-8") as handle:
-            handle.write(render_card(palette, stats))
+            handle.write(render_card(palette, stats, SNAKE_FILES[theme]))
         print("wrote", path)
 
 
