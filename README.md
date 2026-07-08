@@ -33,10 +33,28 @@
   <a href="https://bramvzw.nl">bramvzw.nl</a> · <a href="https://github.com/Bramvzw/smart-home-hub">smart-home-hub</a>
 </p>
 
+<p align="center"><code>LEVEL 1 · SNAKE</code></p>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake.svg" />
   <img alt="snake eating my contribution graph" src="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake.svg" />
+</picture>
+
+<p align="center"><code>LEVEL 2 · PAC-MAN</code></p>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/pacman-contribution-graph-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/pacman-contribution-graph.svg" />
+  <img alt="pac-man eating my contribution graph" src="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/pacman-contribution-graph.svg" />
+</picture>
+
+<p align="center"><code>LEVEL 3 · BREAKOUT</code></p>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/breakout-contribution-graph-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/breakout-contribution-graph.svg" />
+  <img alt="breakout ball smashing my contribution graph" src="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/breakout-contribution-graph.svg" />
 </picture>
 
 <details>
