@@ -19,10 +19,6 @@
 ║   > smart-home-hub ....... modular Laravel smart-home dashboard on a Synology NAS    ║
 ║   > skylanders-tracker ... Android app for Skylanders collectors                     ║
 ║                                                                                      ║
-║  HIGH SCORES                                                                         ║
-║   1UP  laravel/scout .......... bugfix MERGED                                        ║
-║   2UP  filamentphp/filament ... bugfix IN REVIEW                                     ║
-║                                                                                      ║
 ╠══════════════════════════════════════════════════════════════════════════════════════╣
 ║  © 2026 BRAMVZW                     CREDITS: 1                       CONTINUE? _     ║
 ╚══════════════════════════════════════════════════════════════════════════════════════╝
@@ -33,13 +29,15 @@
   <a href="https://github.com/Bramvzw/smart-home-hub"><img alt="smart-home-hub" src="https://img.shields.io/badge/FEATURED-smart--home--hub-22c55e?style=for-the-badge&labelColor=0d1117" /></a>
 </p>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake.svg" />
-  <img alt="snake eating my contribution graph" src="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake.svg" />
-</picture>
-
 <p align="center"><code>PLAYER STATS</code></p>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://streak-stats.demolab.com?user=Bramvzw&hide_border=true&background=0d1117&ring=f97316&fire=f97316&currStreakLabel=22c55e&sideLabels=22c55e&currStreakNum=c9d1d9&sideNums=c9d1d9&dates=8b949e" />
+    <source media="(prefers-color-scheme: light)" srcset="https://streak-stats.demolab.com?user=Bramvzw&hide_border=true&background=ffffff&ring=ea580c&fire=ea580c&currStreakLabel=16a34a&sideLabels=16a34a&currStreakNum=24292f&sideNums=24292f&dates=57606a" />
+    <img alt="contribution streak" src="https://streak-stats.demolab.com?user=Bramvzw&hide_border=true&background=ffffff&ring=ea580c&fire=ea580c&currStreakLabel=16a34a&sideLabels=16a34a&currStreakNum=24292f&sideNums=24292f&dates=57606a" />
+  </picture>
+</p>
 
 <!-- The public github-readme-stats instance is paused (DEPLOYMENT_PAUSED); enable this block when it is back up:
 <p align="center">
@@ -51,13 +49,11 @@
 </p>
 -->
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://streak-stats.demolab.com?user=Bramvzw&hide_border=true&background=0d1117&ring=f97316&fire=f97316&currStreakLabel=22c55e&sideLabels=22c55e&currStreakNum=c9d1d9&sideNums=c9d1d9&dates=8b949e" />
-    <source media="(prefers-color-scheme: light)" srcset="https://streak-stats.demolab.com?user=Bramvzw&hide_border=true&background=ffffff&ring=ea580c&fire=ea580c&currStreakLabel=16a34a&sideLabels=16a34a&currStreakNum=24292f&sideNums=24292f&dates=57606a" />
-    <img alt="contribution streak" src="https://streak-stats.demolab.com?user=Bramvzw&hide_border=true&background=ffffff&ring=ea580c&fire=ea580c&currStreakLabel=16a34a&sideLabels=16a34a&currStreakNum=24292f&sideNums=24292f&dates=57606a" />
-  </picture>
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake.svg" />
+  <img alt="snake eating my contribution graph" src="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/github-contribution-grid-snake.svg" />
+</picture>
 
 <!--
   ╔═══════════════════════════════════════════════╗
