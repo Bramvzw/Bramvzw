@@ -48,3 +48,4 @@ Permission granted. Opening line of communication...
   │  → https://github.com/Bramvzw/smart-home-hub       │
   └─────────────────────────────────────────────────────┘
 -->
+
