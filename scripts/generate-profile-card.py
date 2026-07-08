@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a neofetch-style terminal card SVG with live GitHub stats.
+"""Generate a terminal-session card SVG with live GitHub stats.
 
 Runs in CI with GITHUB_TOKEN set; writes dist/profile-card-dark.svg
 and dist/profile-card-light.svg.
@@ -12,6 +12,7 @@ from xml.sax.saxutils import escape
 
 TOKEN = os.environ["GITHUB_TOKEN"]
 USER = "Bramvzw"
+EMAIL = "bram@vanzwolle.net"
 API = "https://api.github.com/graphql"
 
 
@@ -121,7 +122,7 @@ PALETTES = {
         "key": "#f97316",
         "accent": "#22c55e",
         "muted": "#8b949e",
-        "pixels": ["#0e4429", "#006d32", "#26a641", "#39d353"],
+        "banner": ["#39d353", "#33c94d", "#2dbf47", "#26a641", "#1f9a3c", "#188c36", "#117e30"],
     },
     "light": {
         "background": "#ffffff",
@@ -132,104 +133,102 @@ PALETTES = {
         "key": "#ea580c",
         "accent": "#16a34a",
         "muted": "#57606a",
-        "pixels": ["#9be9a8", "#40c463", "#30a14e", "#216e39"],
+        "banner": ["#216e39", "#25793e", "#298443", "#2d8f48", "#30a14e", "#3ab357", "#45c05f"],
     },
 }
 
-EMAIL = "bramvanzwolle@sibi.nl"
-
-SNAKE_FILES = {
-    "dark": "dist/github-contribution-grid-snake-dark.svg",
-    "light": "dist/github-contribution-grid-snake.svg",
+# Pixel wordmark "BRAM", rendered as rects so it stays crisp in every font environment.
+BANNER_LETTERS = {
+    "B": ["####.", "#...#", "#...#", "####.", "#...#", "#...#", "####."],
+    "R": ["####.", "#...#", "#...#", "####.", "#.#..", "#..#.", "#...#"],
+    "A": [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
+    "M": ["#...#", "##.##", "#.#.#", "#.#.#", "#...#", "#...#", "#...#"],
 }
-
-PIXEL_B = [
-    "111110",
-    "100011",
-    "100011",
-    "111110",
-    "100011",
-    "100011",
-    "111110",
-]
+BANNER_WORD = "BRAM"
 
 FONT = "SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace"
+LEFT = 40
 
 
-def render_pixel_avatar(palette: dict, origin_x: int, origin_y: int, cell: int = 24) -> str:
+def render_pixel_banner(palette: dict, origin_x: int, origin_y: int, cell: int = 13) -> tuple[str, int]:
     rects = []
-    for row_index, row in enumerate(PIXEL_B):
-        for column_index, bit in enumerate(row):
-            if bit == "1":
-                color = palette["pixels"][(row_index + column_index) % len(palette["pixels"])]
-                rects.append(
-                    f'<rect x="{origin_x + column_index * cell}" y="{origin_y + row_index * cell}" '
-                    f'width="{cell - 3}" height="{cell - 3}" rx="4" fill="{color}" />'
-                )
-    return "\n    ".join(rects)
+    column_offset = 0
+    for letter in BANNER_WORD:
+        rows = BANNER_LETTERS[letter]
+        for row_index, row in enumerate(rows):
+            for column_index, bit in enumerate(row):
+                if bit == "#":
+                    rects.append(
+                        f'<rect x="{origin_x + (column_offset + column_index) * cell}" '
+                        f'y="{origin_y + row_index * cell}" width="{cell - 2}" height="{cell - 2}" '
+                        f'rx="2" fill="{palette["banner"][row_index]}" />'
+                    )
+        column_offset += len(rows[0]) + 2
+    banner_height = len(BANNER_LETTERS[BANNER_WORD[0]]) * cell
+    return "\n  ".join(rects), banner_height
 
 
-def embed_snake(svg_path: str, x: int, y: int, target_width: int) -> tuple[str, int]:
-    with open(svg_path, encoding="utf-8") as handle:
-        content = handle.read()
-    native_width, native_height = 880, 192
-    target_height = round(native_height * target_width / native_width)
-    content = content.replace(
-        'width="880" height="192"',
-        f'x="{x}" y="{y}" width="{target_width}" height="{target_height}"',
-        1,
-    )
-    return content, target_height
-
-
-def render_card(palette: dict, stats: dict, snake_path: str) -> str:
+def render_card(palette: dict, stats: dict) -> str:
     width = 860
-    info_x = 300
-    line_height = 25
-    lines: list[tuple[str, str, str]] = [
-        ("", EMAIL, "accent"),
-        ("", "─" * 34, "muted"),
-        ("OS", "PHP 8.4 · Laravel 12", "text"),
-        ("Role", "Full-stack developer & Product Owner", "text"),
-        ("Host", "Sibi — multi-tenant SaaS for healthcare", "text"),
-        ("Stack", "Livewire · Filament · Tailwind", "text"),
-        ("Side quest", "smart-home-hub", "text"),
-        ("Uptime", f"since {stats['since']}", "text"),
-        ("", "─" * 34, "muted"),
-        ("Contribs", f"{stats['contributions']:,} all-time", "text"),
-        ("Streak", f"{stats['current_streak']} days · longest {stats['longest_streak']}", "text"),
-        ("Repos", stats["repos_line"], "text"),
-        ("Langs", stats["languages"], "text"),
-    ]
+    elements: list[str] = []
+    y = 78
 
-    text_elements = []
-    y = 96
-    for key, value, tone in lines:
-        if key:
-            text_elements.append(
-                f'<text x="{info_x}" y="{y}" font-family="{FONT}" font-size="15" '
-                f'fill="{palette["key"]}">{escape(key)}:</text>'
-            )
-            value_x = info_x + 118
-        else:
-            value_x = info_x
-        weight = ' font-weight="bold"' if value == EMAIL else ""
-        text_elements.append(
-            f'<text x="{value_x}" y="{y}" font-family="{FONT}" font-size="15"{weight} '
-            f'fill="{palette[tone]}">{escape(value)}</text>'
+    def add_text(value: str, color: str, size: int = 15, x: int = LEFT, bold: bool = False) -> None:
+        weight = ' font-weight="bold"' if bold else ""
+        elements.append(
+            f'<text x="{x}" y="{y}" font-family="{FONT}" font-size="{size}"{weight} '
+            f'fill="{color}" xml:space="preserve">{escape(value)}</text>'
         )
-        y += line_height
 
-    snake_prompt_y = y + 8
-    snake_x, snake_width = 40, width - 80
-    snake_y = snake_prompt_y + 14
-    snake_block, snake_height = embed_snake(snake_path, snake_x, snake_y, snake_width)
-    prompt_y = snake_y + snake_height + 30
-    height = prompt_y + 34
-    info_column_bottom = snake_prompt_y
-    avatar_height = len(PIXEL_B) * 24
-    avatar_y = 45 + (info_column_bottom - 45 - avatar_height) // 2
-    info_block = "\n  ".join(text_elements)
+    def add_prompt(command: str) -> None:
+        elements.append(
+            f'<text x="{LEFT}" y="{y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}" '
+            f'xml:space="preserve">~ <tspan fill="{palette["text"]}">{escape(command)}</tspan></text>'
+        )
+
+    add_text(f"Last login: {stats['generated_at']} on ttys001", palette["muted"], size=13)
+    y += 32
+
+    add_prompt("figlet bram")
+    y += 18
+    banner_block, banner_height = render_pixel_banner(palette, LEFT, y)
+    elements.append(banner_block)
+    y += banner_height + 40
+
+    add_prompt("neofetch")
+    y += 28
+
+    add_text(EMAIL, palette["accent"], bold=True)
+    y += 25
+    add_text("─" * 42, palette["muted"])
+    y += 25
+
+    info_lines: list[tuple[str, str]] = [
+        ("OS", "PHP 8.4 · Laravel 12"),
+        ("Role", "Full-stack developer & Product Owner"),
+        ("Host", "Sibi — multi-tenant SaaS for healthcare"),
+        ("Stack", "Livewire · Filament · Tailwind"),
+        ("Side quest", "smart-home-hub"),
+        ("Uptime", f"since {stats['since']}"),
+        ("Contribs", f"{stats['contributions']:,} all-time"),
+        ("Streak", f"{stats['current_streak']} days · longest {stats['longest_streak']}"),
+        ("Repos", stats["repos_line"]),
+        ("Langs", stats["languages"]),
+    ]
+    for key, value in info_lines:
+        add_text(f"{key}:", palette["key"])
+        add_text(value, palette["text"], x=LEFT + 130)
+        y += 25
+    y += 8
+
+    elements.append(
+        f'<text x="{LEFT}" y="{y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}">~ '
+        f'<tspan fill="{palette["text"]}">█<animate attributeName="opacity" values="1;1;0;0" dur="1.2s" '
+        f'repeatCount="indefinite" /></tspan></text>'
+    )
+    height = y + 34
+
+    body = "\n  ".join(elements)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
   <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="12" fill="{palette["background"]}" stroke="{palette["border"]}" stroke-width="2" />
   <path d="M 1 45 H {width - 1}" stroke="{palette["border"]}" stroke-width="1" />
@@ -239,13 +238,7 @@ def render_card(palette: dict, stats: dict, snake_path: str) -> str:
   <circle cx="52" cy="23" r="7" fill="#ffbd2e" />
   <circle cx="76" cy="23" r="7" fill="#27c93f" />
   <text x="{width / 2}" y="28" text-anchor="middle" font-family="{FONT}" font-size="13" fill="{palette["title_text"]}">bram — zsh</text>
-  <g>
-    {render_pixel_avatar(palette, 68, avatar_y)}
-  </g>
-  {info_block}
-  <text x="{snake_x}" y="{snake_prompt_y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}">~ <tspan fill="{palette["text"]}">./snake --contributions</tspan></text>
-  {snake_block}
-  <text x="{snake_x}" y="{prompt_y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}">~ <tspan fill="{palette["text"]}">█<animate attributeName="opacity" values="1;1;0;0" dur="1.2s" repeatCount="indefinite" /></tspan></text>
+  {body}
 </svg>
 '''
 
@@ -258,6 +251,7 @@ def main() -> None:
     languages = top_languages(profile["repositories"]["nodes"])
 
     stats = {
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).strftime("%a %b %d %H:%M:%S UTC"),
         "since": created_at.strftime("%b %Y"),
         "contributions": sum(count for _, count in contribution_days),
         "current_streak": current_streak,
@@ -275,7 +269,7 @@ def main() -> None:
     for theme, palette in PALETTES.items():
         path = f"dist/profile-card-{theme}.svg"
         with open(path, "w", encoding="utf-8") as handle:
-            handle.write(render_card(palette, stats, SNAKE_FILES[theme]))
+            handle.write(render_card(palette, stats))
         print("wrote", path)
 
 

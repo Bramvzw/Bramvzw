@@ -1,4 +1,4 @@
-name: generate profile assets
+name: generate profile card
 
 on:
   schedule:
@@ -16,17 +16,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: generate snake
-        uses: Platane/snk@v3
-        with:
-          github_user_name: Bramvzw
-          outputs: |
-            dist/github-contribution-grid-snake.svg?color_snake=%23f97316
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=%23f97316
-      - name: generate profile card with embedded snake
-        run: |
-          sudo chown -R "$(id -u):$(id -g)" dist
-          python3 scripts/generate-profile-card.py
+      - name: generate profile card
+        run: python3 scripts/generate-profile-card.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: deploy to output branch
