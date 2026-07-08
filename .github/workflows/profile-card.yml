@@ -20,6 +20,7 @@ jobs:
         run: python3 scripts/generate-profile-card.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROFILE_TOKEN: ${{ secrets.PROFILE_TOKEN }}
       - name: deploy to output branch
         uses: crazy-max/ghaction-github-pages@v4
         with:

@@ -10,7 +10,10 @@ import os
 import urllib.request
 from xml.sax.saxutils import escape
 
-TOKEN = os.environ["GITHUB_TOKEN"]
+# PROFILE_TOKEN is a personal access token so private activity is counted too;
+# without it the default Actions token sees public data only.
+TOKEN = os.environ.get("PROFILE_TOKEN") or os.environ["GITHUB_TOKEN"]
+INCLUDES_PRIVATE = bool(os.environ.get("PROFILE_TOKEN"))
 USER = "Bramvzw"
 EMAIL = "bram@vanzwolle.net"
 API = "https://api.github.com/graphql"
@@ -143,8 +146,11 @@ BANNER_LETTERS = {
     "R": ["####.", "#...#", "#...#", "####.", "#.#..", "#..#.", "#...#"],
     "A": [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
     "M": ["#...#", "##.##", "#.#.#", "#.#.#", "#...#", "#...#", "#...#"],
+    "V": ["#...#", "#...#", "#...#", "#...#", "#...#", ".#.#.", "..#.."],
+    "Z": ["#####", "....#", "...#.", "..#..", ".#...", "#....", "#####"],
+    "W": ["#...#", "#...#", "#...#", "#.#.#", "#.#.#", "##.##", "#...#"],
 }
-BANNER_WORD = "BRAM"
+BANNER_WORD = "BRAMVZW"
 
 FONT = "SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace"
 LEFT = 40
@@ -189,7 +195,7 @@ def render_card(palette: dict, stats: dict) -> str:
     add_text(f"Last login: {stats['generated_at']} on ttys001", palette["muted"], size=13)
     y += 32
 
-    add_prompt("figlet bram")
+    add_prompt("figlet bramvzw")
     y += 18
     banner_block, banner_height = render_pixel_banner(palette, LEFT, y)
     elements.append(banner_block)
@@ -208,7 +214,7 @@ def render_card(palette: dict, stats: dict) -> str:
         ("Role", "Full-stack developer & Product Owner"),
         ("Host", "Sibi — multi-tenant SaaS for healthcare"),
         ("Stack", "Livewire · Filament · Tailwind"),
-        ("Side quest", "smart-home-hub"),
+        ("Current side quest", "smart-home-hub"),
         ("Uptime", f"since {stats['since']}"),
         ("Contribs", f"{stats['contributions']:,} all-time"),
         ("Streak", f"{stats['current_streak']} days · longest {stats['longest_streak']}"),
@@ -217,7 +223,7 @@ def render_card(palette: dict, stats: dict) -> str:
     ]
     for key, value in info_lines:
         add_text(f"{key}:", palette["key"])
-        add_text(value, palette["text"], x=LEFT + 130)
+        add_text(value, palette["text"], x=LEFT + 190)
         y += 25
     y += 8
 
@@ -262,7 +268,8 @@ def main() -> None:
         "languages": " · ".join(f"{name} {percentage:.0f}%" for name, percentage in languages),
     }
     star_part = f" · {stats['stars']} stars" if stats["stars"] > 0 else ""
-    stats["repos_line"] = f"{stats['repos']} public{star_part} · {stats['merged_prs']} merged PRs"
+    pr_label = "merged PRs" if INCLUDES_PRIVATE else "public merged PRs"
+    stats["repos_line"] = f"{stats['repos']} public{star_part} · {stats['merged_prs']} {pr_label}"
     print("stats:", json.dumps(stats, indent=2))
 
     os.makedirs("dist", exist_ok=True)
