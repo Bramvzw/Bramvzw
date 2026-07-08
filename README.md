@@ -59,21 +59,6 @@
   </picture>
 </p>
 
-<details>
-<summary><code>↑ ↑ ↓ ↓ ← → ← → B A</code></summary>
-<br />
-
-```text
-CHEAT CODE ACCEPTED
-+30 LIVES · UNLIMITED COFFEE · DEBUG MODE ON
-
-You found the Konami code. It unlocks absolutely nothing,
-but I respect the instinct — it's the same one that makes
-me read minified JS bundles until the bug gives up.
-```
-
-</details>
-
 <!--
   ╔═══════════════════════════════════════════════╗
   ║  You're reading the source. +100 BONUS PTS.   ║
