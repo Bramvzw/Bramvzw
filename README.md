@@ -1,36 +1,36 @@
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Press+Start+2P&size=14&pause=1500&color=22C55E&center=true&vCenter=true&width=460&height=40&lines=INSERT+COIN;PRESS+START;PLAYER+1+READY" alt="INSERT COIN — PRESS START — PLAYER 1 READY" />
+  <img src="https://readme-typing-svg.demolab.com?font=Press+Start+2P&size=14&pause=1500&color=22C55E&center=true&vCenter=true&width=460&height=40&repeat=false&lines=INSERT+COIN;PRESS+START;PLAYER+1+READY" alt="INSERT COIN — PRESS START — PLAYER 1 READY" />
 </p>
 
 ```text
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║        B R A M V Z W   ·   A R C A D E   E D I T I O N        ║
-║                                                               ║
-╠═══════════════════════════════════════════════════════════════╣
-║                                                               ║
-║  PLAYER 1        Full-stack developer & Product Owner         ║
-║  ARENA           Sibi — multi-tenant SaaS for healthcare      ║
-║                                                               ║
-║  INVENTORY       PHP 8.4 · Laravel 12 · Livewire · Filament   ║
-║                  Tailwind · Redis · Meilisearch · Docker      ║
-║                                                               ║
-║  LEVEL SELECT                                                 ║
-║   > smart-home-hub ....... modular Laravel smart-home         ║
-║                            dashboard on a Synology NAS        ║
-║   > skylanders-tracker ... Android app for collectors         ║
-║                                                               ║
-║  HIGH SCORES                                                  ║
-║   1UP  laravel/scout .......... bugfix MERGED                 ║
-║   2UP  filamentphp/filament ... bugfix IN REVIEW              ║
-║                                                               ║
-╠═══════════════════════════════════════════════════════════════╣
-║  © 2026 BRAMVZW              CREDITS: 1        CONTINUE? _    ║
-╚═══════════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                      ║
+║                   B R A M V Z W   ·   A R C A D E   E D I T I O N                    ║
+║                                                                                      ║
+╠══════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                      ║
+║  PLAYER 1        Full-stack developer & Product Owner                                ║
+║  ARENA           Sibi — multi-tenant SaaS for healthcare                             ║
+║                                                                                      ║
+║  INVENTORY       PHP 8.4 · Laravel 12 · Livewire · Filament · Tailwind · Redis       ║
+║                  Meilisearch · Docker                                                ║
+║                                                                                      ║
+║  LEVEL SELECT                                                                        ║
+║   > smart-home-hub ....... modular Laravel smart-home dashboard on a Synology NAS    ║
+║   > skylanders-tracker ... Android app for Skylanders collectors                     ║
+║                                                                                      ║
+║  HIGH SCORES                                                                         ║
+║   1UP  laravel/scout .......... bugfix MERGED                                        ║
+║   2UP  filamentphp/filament ... bugfix IN REVIEW                                     ║
+║                                                                                      ║
+╠══════════════════════════════════════════════════════════════════════════════════════╣
+║  © 2026 BRAMVZW                     CREDITS: 1                       CONTINUE? _     ║
+╚══════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 <p align="center">
-  <a href="https://bramvzw.nl">bramvzw.nl</a> · <a href="https://github.com/Bramvzw/smart-home-hub">smart-home-hub</a>
+  <a href="https://bramvzw.nl"><img alt="bramvzw.nl" src="https://img.shields.io/badge/WEBSITE-bramvzw.nl-f97316?style=for-the-badge&labelColor=0d1117" /></a>
+  <a href="https://github.com/Bramvzw/smart-home-hub"><img alt="smart-home-hub" src="https://img.shields.io/badge/FEATURED-smart--home--hub-22c55e?style=for-the-badge&labelColor=0d1117" /></a>
 </p>
 
 <picture>
