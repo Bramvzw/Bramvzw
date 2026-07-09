@@ -10,6 +10,12 @@ on:
 permissions:
   contents: write
 
+# Only the newest run may deploy; cancel older in-flight runs so rapid
+# consecutive pushes can't race and land stale output last.
+concurrency:
+  group: profile-card
+  cancel-in-progress: true
+
 jobs:
   generate:
     runs-on: ubuntu-latest
