@@ -175,11 +175,11 @@ def render_pixel_banner(palette: dict, origin_x: int, origin_y: int, cell: int =
 
 
 def render_card(palette: dict, stats: dict) -> str:
-    width = 860
+    width = 720
     elements: list[str] = []
     y = 78
 
-    def add_text(value: str, color: str, size: int = 15, x: int = LEFT, bold: bool = False) -> None:
+    def add_text(value: str, color: str, size: int = 14, x: int = LEFT, bold: bool = False) -> None:
         weight = ' font-weight="bold"' if bold else ""
         elements.append(
             f'<text x="{x}" y="{y}" font-family="{FONT}" font-size="{size}"{weight} '
@@ -188,51 +188,86 @@ def render_card(palette: dict, stats: dict) -> str:
 
     def add_prompt(command: str) -> None:
         elements.append(
-            f'<text x="{LEFT}" y="{y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}" '
+            f'<text x="{LEFT}" y="{y}" font-family="{FONT}" font-size="14" fill="{palette["accent"]}" '
             f'xml:space="preserve">~ <tspan fill="{palette["text"]}">{escape(command)}</tspan></text>'
         )
 
-    add_text(f"Last login: {stats['generated_at']} on ttys001", palette["muted"], size=13)
-    y += 32
+    def add_leader(key: str, value: str, col: int = 18) -> None:
+        dots = "." * max(2, col - len(key) - 2)
+        elements.append(
+            f'<text x="{LEFT}" y="{y}" font-family="{FONT}" font-size="14" '
+            f'fill="{palette["key"]}" xml:space="preserve">{escape(key)} '
+            f'<tspan fill="{palette["muted"]}">{dots}</tspan> '
+            f'<tspan fill="{palette["text"]}">{escape(value)}</tspan></text>'
+        )
+
+    add_text(f"Last login: {stats['generated_at']} on ttys001", palette["muted"], size=12)
+    y += 30
 
     add_prompt("figlet bramvzw")
-    y += 18
-    banner_block, banner_height = render_pixel_banner(palette, LEFT, y)
+    y += 16
+    banner_block, banner_height = render_pixel_banner(palette, LEFT, y, cell=9)
     elements.append(banner_block)
-    y += banner_height + 40
+    y += banner_height + 30
 
     add_prompt("neofetch")
-    y += 28
+    y += 26
+    add_text("bram@vanzwolle", palette["accent"], bold=True)
+    y += 22
+    add_text("─" * 46, palette["muted"])
+    y += 24
 
-    add_text(EMAIL, palette["accent"], bold=True)
-    y += 25
-    add_text("─" * 42, palette["muted"])
-    y += 25
-
-    info_lines: list[tuple[str, str]] = [
-        ("OS", "PHP 8.4 · Laravel 12"),
-        ("Role", "Full-stack developer & Product Owner"),
-        ("Host", "Sibi — multi-tenant SaaS for healthcare"),
-        ("Stack", "Livewire · Filament · Tailwind"),
-        ("Current side quest", "smart-home-hub"),
-        ("Uptime", f"since {stats['since']}"),
-        ("Contribs", f"{stats['contributions']:,} all-time"),
-        ("Streak", f"{stats['current_streak']} days · longest {stats['longest_streak']}"),
-        ("Repos", stats["repos_line"]),
-        ("Langs", stats["languages"]),
+    identity: list[tuple[str, str]] = [
+        ("Role", "Full-stack Developer & Product Owner"),
+        ("Company", "Sibi · Healthcare SaaS"),
+        ("Platform", "Multi-tenant · isolated DB per tenant"),
+        ("Runtime", "PHP 8.4 · Laravel 12"),
+        ("Frontend", "Livewire · Filament · Tailwind"),
     ]
-    for key, value in info_lines:
-        add_text(f"{key}:", palette["key"])
-        add_text(value, palette["text"], x=LEFT + 190)
-        y += 25
-    y += 8
+    for key, value in identity:
+        add_leader(key, value)
+        y += 22
+    y += 14
+
+    add_prompt("ls ~/projects")
+    y += 24
+    projects: list[tuple[str, str]] = [
+        ("sooth", "Rust CLI · flaky-test detector · no AI, no keys"),
+        ("smart-home-hub", "Laravel · modular self-hosted dashboard"),
+        ("open-source", "merged PRs → laravel/scout · filamentphp/filament"),
+    ]
+    for key, value in projects:
+        add_leader(key, value)
+        y += 22
+    y += 14
+
+    add_prompt("uptime")
+    y += 24
+    add_text(
+        f"active since {stats['since']} · {stats['contributions']:,} contributions · {stats['current_streak']}-day streak",
+        palette["text"],
+    )
+    y += 22
+    y += 14
+
+    add_prompt("cat contact.txt")
+    y += 24
+    contact: list[tuple[str, str]] = [
+        ("web", "bramvzw.nl"),
+        ("email", EMAIL),
+        ("linkedin", "in/bram-van-zwolle-239ba7198"),
+    ]
+    for key, value in contact:
+        add_leader(key, value)
+        y += 22
+    y += 6
 
     elements.append(
-        f'<text x="{LEFT}" y="{y}" font-family="{FONT}" font-size="15" fill="{palette["accent"]}">~ '
+        f'<text x="{LEFT}" y="{y}" font-family="{FONT}" font-size="14" fill="{palette["accent"]}">~ '
         f'<tspan fill="{palette["text"]}">█<animate attributeName="opacity" values="1;1;0;0" dur="1.2s" '
         f'repeatCount="indefinite" /></tspan></text>'
     )
-    height = y + 34
+    height = y + 30
 
     body = "\n  ".join(elements)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
