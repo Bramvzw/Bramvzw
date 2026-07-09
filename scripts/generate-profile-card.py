@@ -177,7 +177,7 @@ def render_pixel_banner(palette: dict, origin_x: int, origin_y: int, cell: int =
 def render_card(palette: dict, stats: dict) -> str:
     width = 720
     elements: list[str] = []
-    y = 78
+    y = 64
 
     def add_text(value: str, color: str, size: int = 14, x: int = LEFT, bold: bool = False) -> None:
         weight = ' font-weight="bold"' if bold else ""
@@ -202,20 +202,20 @@ def render_card(palette: dict, stats: dict) -> str:
         )
 
     add_text(f"Last login: {stats['generated_at']} on ttys001", palette["muted"], size=12)
-    y += 30
+    y += 24
 
     add_prompt("figlet bramvzw")
-    y += 16
-    banner_block, banner_height = render_pixel_banner(palette, LEFT, y, cell=9)
+    y += 12
+    banner_block, banner_height = render_pixel_banner(palette, LEFT, y, cell=7)
     elements.append(banner_block)
-    y += banner_height + 30
+    y += banner_height + 22
 
     add_prompt("neofetch")
-    y += 26
-    add_text("bram@vanzwolle", palette["accent"], bold=True)
     y += 22
+    add_text("bram@vanzwolle", palette["accent"], bold=True)
+    y += 20
     add_text("─" * 46, palette["muted"])
-    y += 24
+    y += 21
 
     identity: list[tuple[str, str]] = [
         ("Role", "Full-stack Developer & Product Owner"),
@@ -226,11 +226,11 @@ def render_card(palette: dict, stats: dict) -> str:
     ]
     for key, value in identity:
         add_leader(key, value)
-        y += 22
-    y += 14
+        y += 20
+    y += 10
 
     add_prompt("ls ~/projects")
-    y += 24
+    y += 21
     projects: list[tuple[str, str]] = [
         ("sooth", "Rust CLI · flaky-test detector · no AI, no keys"),
         ("smart-home-hub", "Laravel · modular self-hosted dashboard"),
@@ -238,20 +238,20 @@ def render_card(palette: dict, stats: dict) -> str:
     ]
     for key, value in projects:
         add_leader(key, value)
-        y += 22
-    y += 14
+        y += 20
+    y += 10
 
     add_prompt("uptime")
-    y += 24
+    y += 21
     add_text(
         f"active since {stats['since']} · {stats['contributions']:,} contributions · {stats['current_streak']}-day streak",
         palette["text"],
     )
-    y += 22
-    y += 14
+    y += 20
+    y += 10
 
     add_prompt("cat contact.txt")
-    y += 24
+    y += 21
     contact: list[tuple[str, str]] = [
         ("web", "bramvzw.nl"),
         ("email", EMAIL),
@@ -259,15 +259,15 @@ def render_card(palette: dict, stats: dict) -> str:
     ]
     for key, value in contact:
         add_leader(key, value)
-        y += 22
-    y += 6
+        y += 20
+    y += 4
 
     elements.append(
         f'<text x="{LEFT}" y="{y}" font-family="{FONT}" font-size="14" fill="{palette["accent"]}">~ '
         f'<tspan fill="{palette["text"]}">█<animate attributeName="opacity" values="1;1;0;0" dur="1.2s" '
         f'repeatCount="indefinite" /></tspan></text>'
     )
-    height = y + 30
+    height = y + 24
 
     body = "\n  ".join(elements)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">

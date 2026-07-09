@@ -1,6 +1,6 @@
 <p align="center">
   <strong>Full-stack developer & Product Owner building multi-tenant healthcare SaaS at Sibi.</strong><br />
-  I care about clean architecture, static analysis and shipping — on the side I build self-hosted tools with no AI and no API keys.
+  I care about clean architecture, static analysis and shipping.
 </p>
 
 <p align="center">
