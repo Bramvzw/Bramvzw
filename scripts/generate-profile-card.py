@@ -224,8 +224,10 @@ def render_card(palette: dict, stats: dict) -> str:
         ("Role", "Full-stack Developer & Product Owner"),
         ("Company", "Sibi · Healthcare SaaS"),
         ("Platform", "Multi-tenant · isolated DB per tenant"),
-        ("Runtime", "PHP 8.4 · Laravel 12"),
-        ("Frontend", "Livewire · Filament · Tailwind"),
+        ("Languages", "PHP · Rust · TypeScript · JavaScript · Python · C#"),
+        ("Backend", "Laravel 12 · MySQL · Redis · Horizon · Scout"),
+        ("Frontend", "Livewire · Filament · Alpine · Tailwind"),
+        ("Tooling", "Docker · PHPUnit · PHPStan · Pint · GitHub Actions"),
     ]
     for key, value in identity:
         add_leader(key, value)
