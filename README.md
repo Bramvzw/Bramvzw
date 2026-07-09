@@ -1,6 +1,9 @@
 <p align="center">
-  <strong>Full-stack developer & Product Owner building multi-tenant healthcare SaaS at Sibi.</strong><br />
-  I care about clean architecture, static analysis and shipping.
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/intro-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/intro-light.svg" />
+    <img alt="Full-stack developer & Product Owner building multi-tenant healthcare SaaS at Sibi. I care about clean architecture, static analysis and shipping." src="https://raw.githubusercontent.com/Bramvzw/Bramvzw/output/intro-light.svg" />
+  </picture>
 </p>
 
 <p align="center">

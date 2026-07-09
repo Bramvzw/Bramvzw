@@ -177,6 +177,38 @@ def render_pixel_banner(palette: dict, origin_x: int, origin_y: int, cell: int =
     return "\n  ".join(rects), banner_height
 
 
+def render_intro(palette: dict) -> str:
+    width = 720
+    height = 104
+    center = width / 2
+
+    def span(text: str, color: str) -> str:
+        return f'<tspan fill="{color}">{escape(text)}</tspan>'
+
+    def line(y: int, size: int, bold: bool, spans: list[str]) -> str:
+        weight = ' font-weight="bold"' if bold else ""
+        return (
+            f'<text x="{center}" y="{y}" text-anchor="middle" font-family="{FONT}" '
+            f'font-size="{size}"{weight} xml:space="preserve">{"".join(spans)}</text>'
+        )
+
+    lines = [
+        line(30, 15, True, [span("Full-stack developer & Product Owner building", palette["text"])]),
+        line(54, 15, True, [
+            span("multi-tenant healthcare SaaS", palette["accent"]),
+            span(" at Sibi.", palette["text"]),
+        ]),
+        line(88, 13, False, [
+            span("I care about clean architecture, static analysis and shipping.", palette["muted"]),
+        ]),
+    ]
+    body = "\n  ".join(lines)
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+        f'viewBox="0 0 {width} {height}">\n  {body}\n</svg>\n'
+    )
+
+
 def render_card(palette: dict, stats: dict) -> str:
     width = 720
     elements: list[str] = []
@@ -314,10 +346,14 @@ def main() -> None:
 
     os.makedirs("dist", exist_ok=True)
     for theme, palette in PALETTES.items():
-        path = f"dist/profile-card-{theme}.svg"
-        with open(path, "w", encoding="utf-8") as handle:
-            handle.write(render_card(palette, stats))
-        print("wrote", path)
+        for name, svg in (
+            (f"intro-{theme}.svg", render_intro(palette)),
+            (f"profile-card-{theme}.svg", render_card(palette, stats)),
+        ):
+            path = f"dist/{name}"
+            with open(path, "w", encoding="utf-8") as handle:
+                handle.write(svg)
+            print("wrote", path)
 
 
 if __name__ == "__main__":
