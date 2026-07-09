@@ -9,6 +9,9 @@ import json
 import os
 import urllib.request
 from xml.sax.saxutils import escape
+from zoneinfo import ZoneInfo
+
+TIMEZONE = ZoneInfo("Europe/Amsterdam")
 
 # PROFILE_TOKEN is a personal access token so private activity is counted too;
 # without it the default Actions token sees public data only.
@@ -292,7 +295,7 @@ def main() -> None:
     languages = top_languages(profile["repositories"]["nodes"])
 
     stats = {
-        "generated_at": datetime.datetime.now(datetime.timezone.utc).strftime("%a %b %d %H:%M:%S UTC"),
+        "generated_at": datetime.datetime.now(TIMEZONE).strftime("%a %b %d %H:%M:%S %Z"),
         "since": created_at.strftime("%b %Y"),
         "contributions": sum(count for _, count in contribution_days),
         "current_streak": current_streak,
