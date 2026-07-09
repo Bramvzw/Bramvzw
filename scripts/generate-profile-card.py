@@ -259,14 +259,6 @@ def render_card(stats: dict) -> str:
     add_row("sooth", TERM["accent"], joined(["Rust CLI", "flaky-test detector", "no AI, no keys"]))
     y += 19
     add_row("smart-home-hub", TERM["accent"], joined(["Laravel", "modular self-hosted dashboard"]))
-    y += 19
-    add_row("open-source", TERM["accent"], [
-        ("merged PRs ", TERM["ink"]),
-        ("→", TERM["accent"]),
-        (" laravel/scout ", TERM["ink"]),
-        sep,
-        (" filamentphp/filament", TERM["ink"]),
-    ])
     y += 28
 
     add_cmd("uptime")
