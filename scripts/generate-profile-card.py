@@ -280,7 +280,7 @@ def render_card(stats: dict) -> str:
     y += 19
     add_row("email", TERM["amber"], [(EMAIL, TERM["accent"])])
     y += 19
-    add_row("linkedin", TERM["amber"], [("in/bram-van-zwolle-239ba7198", TERM["accent"])])
+    add_row("linkedin", TERM["amber"], [("bram van zwolle", TERM["accent"])])
     y += 26
 
     elements.append(

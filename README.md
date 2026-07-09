@@ -16,8 +16,8 @@
 
 <p align="center">
   <a href="https://bramvzw.nl"><img alt="Website" src="https://img.shields.io/badge/Website-bramvzw.nl-4090ff?style=for-the-badge&logo=firefox&logoColor=white&labelColor=161b22" /></a>
-  <a href="https://www.linkedin.com/in/bram-van-zwolle-239ba7198/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-bram%20van%20zwolle-4b93e6?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=161b22" /></a>
   <a href="mailto:bram@vanzwolle.net"><img alt="Email" src="https://img.shields.io/badge/Email-bram@vanzwolle.net-e3a44a?style=for-the-badge&logo=maildotru&logoColor=white&labelColor=161b22" /></a>
+  <a href="https://www.linkedin.com/in/bram-van-zwolle-239ba7198/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-bram%20van%20zwolle-4b93e6?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=161b22" /></a>
 </p>
 
 <p align="center">
