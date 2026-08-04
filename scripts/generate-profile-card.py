@@ -83,18 +83,6 @@ def fetch_contribution_days(created_at: datetime.date) -> list[tuple[datetime.da
     return days
 
 
-def compute_streak(days: list[tuple[datetime.date, int]]) -> int:
-    by_date = dict(days)
-    cursor = datetime.date.today()
-    if by_date.get(cursor, 0) == 0:
-        cursor -= datetime.timedelta(days=1)
-    current = 0
-    while by_date.get(cursor, 0) > 0:
-        current += 1
-        cursor -= datetime.timedelta(days=1)
-    return current
-
-
 # Terminal window palette (always dark — a terminal is dark regardless of the
 # page it sits on). Variable names mirror the source design.
 TERM = {
@@ -268,9 +256,7 @@ def render_card(stats: dict) -> str:
         f'fill="{TERM["ink_soft"]}" xml:space="preserve">'
         f'active since {escape(stats["since"])} '
         f'<tspan fill="{TERM["dim"]}">·</tspan> '
-        f'<tspan fill="{TERM["accent"]}">{stats["contributions"]:,}</tspan> contributions '
-        f'<tspan fill="{TERM["dim"]}">·</tspan> '
-        f'{stats["current_streak"]}-day streak</text>'
+        f'<tspan fill="{TERM["accent"]}">{stats["contributions"]:,}</tspan> contributions</text>'
     )
     y += 28
 
@@ -324,7 +310,6 @@ def main() -> None:
         "generated_at": datetime.datetime.now(TIMEZONE).strftime("%a %b %d %H:%M:%S %Z"),
         "since": created_at.strftime("%b %Y"),
         "contributions": sum(count for _, count in contribution_days),
-        "current_streak": compute_streak(contribution_days),
     }
     print("stats:", json.dumps(stats, indent=2))
 
